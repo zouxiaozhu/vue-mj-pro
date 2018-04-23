@@ -12,12 +12,12 @@ export default new Router({
     name:'Login',
     component: Login
   },{
-    path:'/index',
+    path:'/:index',
     name:'Index',
     component:Index
   }],
   beforeEach(to, from, next){
     console.log('webhook init success ')
-    return false
+    return 
   }
 });

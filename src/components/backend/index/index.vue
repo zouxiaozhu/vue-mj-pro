@@ -23,12 +23,15 @@
 		},
 		methods : {
 			getParams: function(){
-				let routerParams = this.$route.params;
-				console.log(routerParams.name);
+				let routerParams = this.$route.query.name;
+				console.log(routerParams);
 			}
 		},	
 		watch:{
 			
+		},created(){
+			let routerParams = this.$route.query.name;
+				console.log(routerParams);
 		}
 	}
 

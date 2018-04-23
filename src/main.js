@@ -5,11 +5,14 @@ import App from './App'
 import router from './router'
 import axios from 'axios';
 import $ from 'jquery';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min.js';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/js/bootstrap.min.js';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
+Vue.use(ElementUI);
 
 /* eslint-disable no-new */
 new Vue({

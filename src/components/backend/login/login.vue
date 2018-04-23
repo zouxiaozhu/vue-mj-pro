@@ -27,32 +27,25 @@
 					</span>
 				</div>
 				<div class="index-detail"> 
-						<div class="container-fluid">
-							<form class="form-horizontal">
-							  <div class="form-group">
-							    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-							    <div class="col-sm-10">
-							      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-							    </div>
-							  </div>
-							 
-							</form>
-
-						</div>
-					<!-- <div class="form-hor">	
-						<form>							
-							<label>
-								USERNAME : <input type="text" name="name">
-							</label>
-
-							<label>
-								PASSWORD : <input type="text" name="password">
-							</label>
-							<label>
-								<button class="btn btn-info">11</button>
-							</label>
-						</form>
-					</div> -->
+						<a class="form-title"> <i class="el-icon-star-on"></i>LOGIN</a>
+						<el-form :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+						  <el-form-item label="USERNAME" prop="name">
+						   <el-col :span="12">
+								<el-input v-model="ruleForm.name"></el-input>  </el-col>
+						  </el-form-item>
+				  		 <el-form-item label="PASSWORD" prop="password">
+						   <el-col :span="12">
+								<el-input v-model="ruleForm.password" type="password"></el-input>  </el-col>
+						  </el-form-item>
+			
+						  <el-form-item label="REMEMBER" prop="remember">
+						    <el-switch v-model="ruleForm.remember"></el-switch>
+						  </el-form-item>
+						  <el-form-item>
+						    <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+						    <el-button @click="resetForm('ruleForm')">重置</el-button>
+						  </el-form-item>
+						</el-form>
 					
 				</div>
 				<div class="index-right-detail">
@@ -80,50 +73,63 @@
 	            backgroundSize: "100% auto",
 	            margin: "0 auto",
 	    	},
-	    	user_info:{
-	    		name:'',
-	    		password:'',
-	    		remember:"0"
-	    	}
-	    }
+    	    ruleForm: {
+	          name: '',
+	          password :'',
+	          remember :''
+			}
+    	 }
 	  },
 	  props: {},
 	  watch: {},
 	  methods: {
-	  	   login:function(){
+	  		onSubmit() {
+        		console.log('submit!');
+      		},
+      		resetForm(){},
+      		submitForm(){
+      			this.login();
+      		},
+	  	    login:function(){
 	  	   		var self = this;
-	  	   	     this.$axios.post("http://www.mj_pro.com/api/auth/login",
-	  	   	     	 this.user_info,{}).then(function(res){
-	  	   	     	   var ret = res.data;
 
 
-
-						self.$router.push({ 
+	  	   		self.$router.push({ 
             					path:'/index',
-					            params: { 
-					                name: 'wode', 
-					                dataObj: 'nide'
+					            query:{
+					            	name:this.ruleForm.name
 					            }
-					        }
-			            )
+					        });
 
-					return false;
+		        console.log('end');
+		        return false;
+	  	 //   	     this.$axios.post("http://www.mj_pro.com/api/auth/login",
+	  	 //   	     	 this.user_info,{}).then(function(res){
+	  	 //   	     	   var ret = res.data;
+					// 	self.$router.push({ 
+     //        					path:'/index',
+					//             query:{
 
-	  	   	     	   if (!ret.status) {
-	  	   	     	   	    self.initUserInfo();
-	  	   	     	   }else{  
-	  	   	     	   		self.$router.push({ 
-            					path:'/index',
-					            params: { 
-					                name: ret, 
-					                dataObj: []
-					            }
-					        }
-			            )}
-					}).catch(function(res){
+					//             }
+					//         }
+			  //           )
 
-	  	   	     		console.log(res)
-  	   	     	})
+					// return false;
+
+	  	 //   	     	   if (!ret.status) {
+	  	 //   	     	   	    self.initUserInfo();
+	  	 //   	     	   }else{  
+	  	 //   	     	   		self.$router.push({ 
+     //        					path:'/index',
+					//             query:{
+					//             	name:this.ruleForm.name
+					//             }
+					//         }
+			  //           )}
+					// }).catch(function(res){
+
+	  	 //   	     		console.log(res)
+  	  //  	     	})
   	   		},
 	  	    initUserInfo:function(){
 	  	   		this.user_info =  {
@@ -175,7 +181,7 @@
 	    width: 100%;
 	    background: #272424;
 	    height: 100%;
-	    padding: 1rem;
+	   	padding-top: 1rem;
 	    margin: 0px auto;
 	    display: flex;
 	    flex-direction: row;
@@ -189,12 +195,16 @@
 	}
 
 	.index-detail{
-		/*flex: 3;*/
-		background: gray;
-		width: 40% !important;
+		flex: 3;
+		   background: white;
+	
 		height: 100%;
-		line-height: 10px;
-		border: 1px green solid;
+		text-align: center;
+		padding-left: .4rem
+	}
+	.index-detail div{
+	
+		width: 90%;
 
 	}
 
@@ -223,7 +233,17 @@
 		padding-top:.8rem;
 		text-align: center; 
 	}
-	
+	.btn{
+		height: .5rem;
+		width: .7rem;
+
+		line-height: .1rem
+	}
+	.form-title{
+		font-family: sans-serif;
+		color:#606266;
+
+	}
 	input::-ms-input-placeholder{text-align: center;} 
 	input::-webkit-input-placeholder{text-align: center;} 
 </style>
