@@ -16,49 +16,44 @@
 				<div class="index-left-detail">
 					<span>
 						<span class="info-detail">
-								Built for developers
+							Built for developers
 						</span>				
 						<br>	
 						<span class="info-retail">
-							
-						GitHub is a development platform inspired by the way you work. From open source to business, you can host and review code, manage projects, and build software alongside millions of other developers.
-
+							GitHub is a development platform inspired by the way you work. From open source to business, you can host and review code, manage projects, and build software alongside millions of other developers.
 						</span>
 					</span>
 				</div>
 				<div class="index-detail"> 
 						<a class="form-title"> <i class="el-icon-star-on"></i>LOGIN</a>
 						<el-form :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-						  <el-form-item label="USERNAME" prop="name">
-						   <el-col :span="12">
+						  	<el-form-item label="USERNAME" prop="name">
+						  		<el-col :span="12">
 								<el-input v-model="ruleForm.name"></el-input>  </el-col>
-						  </el-form-item>
-				  		 <el-form-item label="PASSWORD" prop="password">
-						   <el-col :span="12">
+						 	</el-form-item>
+				  		 	<el-form-item label="PASSWORD" prop="password">
+						    <el-col :span="12">
 								<el-input v-model="ruleForm.password" type="password"></el-input>  </el-col>
-						  </el-form-item>
+						  	</el-form-item>
 			
-						  <el-form-item label="REMEMBER" prop="remember">
-						    <el-switch v-model="ruleForm.remember"></el-switch>
-						  </el-form-item>
-						  <el-form-item>
-						    <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+						  	<el-form-item label="REMEMBER" prop="remember">
+						    	<el-switch v-model="ruleForm.remember"></el-switch>
+						  	</el-form-item>
+						  	<el-form-item>
+						    	<el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
 						    <el-button @click="resetForm('ruleForm')">重置</el-button>
 						  </el-form-item>
 						</el-form>
-					
 				</div>
 				<div class="index-right-detail">
 					<span>
 						<h2>
-								Built for developers
+							Built for developers
 						</h2>					
-						
 					</span>
 				</div>
-
+			</div>
 		</div>
-	</div>
 </template>
 
 <script type="text/javascript">
@@ -76,7 +71,7 @@
     	    ruleForm: {
 	          name: '',
 	          password :'',
-	          remember :''
+	          remember :false
 			}
     	 }
 	  },
@@ -93,49 +88,73 @@
 	  	    login:function(){
 	  	   		var self = this;
 
+	  	   		// self.$router.push({ 
+         //    					path:'/index',
+					    //         query:{
+					    //         	name: this.ruleForm.name,
+					    //         	password: this.ruleForm.password,
+					    //         	remember: this.ruleForm.remember
+					    //         }
+					    //     });
+	  	  //  	     this.$axios.post("http://www.mj_pro.com/api/auth/login",
+	  	  //  	     	 this.user_info,{emulateJSON:true}).
+	  	  //  	     		then(function(res){
+	  	  //  	     	   		var ret = res.data;
+						// self.$router.push({ 
+      //       					path:'/index',
+					 //            query:{
 
-	  	   		self.$router.push({ 
-            					path:'/index',
-					            query:{
-					            	name:this.ruleForm.name
-					            }
-					        });
+					 //            }
+					 //        }
+			   //         };
 
-		        console.log('end');
-		        return false;
-	  	 //   	     this.$axios.post("http://www.mj_pro.com/api/auth/login",
-	  	 //   	     	 this.user_info,{}).then(function(res){
-	  	 //   	     	   var ret = res.data;
-					// 	self.$router.push({ 
-     //        					path:'/index',
-					//             query:{
 
-					//             }
-					//         }
-			  //           )
+			   		var login_data = {
+			   				name: this.ruleForm.name.trim(),
+					        password: this.ruleForm.password,
+					      	remember: this.ruleForm.remember
+			   		};
 
-					// return false;
-
-	  	 //   	     	   if (!ret.status) {
-	  	 //   	     	   	    self.initUserInfo();
-	  	 //   	     	   }else{  
-	  	 //   	     	   		self.$router.push({ 
-     //        					path:'/index',
-					//             query:{
-					//             	name:this.ruleForm.name
-					//             }
-					//         }
-			  //           )}
-					// }).catch(function(res){
-
-	  	 //   	     		console.log(res)
-  	  //  	     	})
+			        self.$axios({
+                        url: "http://www.mj_pro.com/api/auth/login",
+                        method: 'post',
+                        data: login_data
+                    }).then(function(res) {
+                    	if( !res.data.status){
+                    		alert('chongxinshuru');
+                    		return false;
+                    	}
+        			  	self.$router.push({
+        			  		path:'/index',
+					        query:{
+				            	name: login_data.name.trim(),
+				            	login_time : self.nowDate()
+				            }
+        				})                  
+                    })
   	   		},
+  	   		nowDate:function (){
+			    var date = new Date();
+			    var seperator1 = "-";
+			    var seperator2 = ":";
+			    var month = date.getMonth() + 1;
+			    var strDate = date.getDate();
+			    if (month >= 1 && month <= 9) {
+			        month = "0" + month;
+			    }
+			    if (strDate >= 0 && strDate <= 9) {
+			        strDate = "0" + strDate;
+			    }
+			    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+			            + " " + date.getHours() + seperator2 + date.getMinutes()
+			            + seperator2 + date.getSeconds();
+			    return currentdate;
+			},
 	  	    initUserInfo:function(){
 	  	   		this.user_info =  {
 	  	   			name:'',
 	    			password:'',
-	    			remember:1	
+	    			remember:"1"
 	  	   		};
 	  	    }
 	  	},
