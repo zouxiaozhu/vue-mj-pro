@@ -68,6 +68,7 @@
 	            backgroundSize: "100% auto",
 	            margin: "0 auto",
 	    	},
+
     	    ruleForm: {
 	          name: '',
 	          password :'',
@@ -87,51 +88,36 @@
       		},
 	  	    login:function(){
 	  	   		var self = this;
+		   		var login_data = {
+		   				name: this.ruleForm.name.trim(),
+				        password: this.ruleForm.password,
+				      	remember: this.ruleForm.remember
+		   		};
 
-	  	   		// self.$router.push({ 
-         //    					path:'/index',
-					    //         query:{
-					    //         	name: this.ruleForm.name,
-					    //         	password: this.ruleForm.password,
-					    //         	remember: this.ruleForm.remember
-					    //         }
-					    //     });
-	  	  //  	     this.$axios.post("http://www.mj_pro.com/api/auth/login",
-	  	  //  	     	 this.user_info,{emulateJSON:true}).
-	  	  //  	     		then(function(res){
-	  	  //  	     	   		var ret = res.data;
-						// self.$router.push({ 
-      //       					path:'/index',
-					 //            query:{
+		        self.$axios({
+                    url: "http://www.mj_pro.com/api/auth/login",
+                    method: 'post',
+                    data: login_data
+                }).then(function(res) {
+                	
+                	
+                	if( !res.data.status){
+                		alert('chongxinshuru');
+                		return false;
+                	}
 
-					 //            }
-					 //        }
-			   //         };
-
-
-			   		var login_data = {
-			   				name: this.ruleForm.name.trim(),
-					        password: this.ruleForm.password,
-					      	remember: this.ruleForm.remember
-			   		};
-
-			        self.$axios({
-                        url: "http://www.mj_pro.com/api/auth/login",
-                        method: 'post',
-                        data: login_data
-                    }).then(function(res) {
-                    	if( !res.data.status){
-                    		alert('chongxinshuru');
-                    		return false;
-                    	}
-        			  	self.$router.push({
-        			  		path:'/index',
-					        query:{
-				            	name: login_data.name.trim(),
-				            	login_time : self.nowDate()
-				            }
-        				})                  
-                    })
+            		// window.localStorage.setItem('auths', res.data.auths);
+                	// window.localStorage.setItem('navs', res.data.navs);
+                	
+    			  	self.$router.push({
+    			  		path:'/index',
+				        query:{
+			            	name: login_data.name.trim(),
+			            	login_time : self.nowDate(),
+			            	navs: JSON.stringify(res.data.data.navs)
+			            }
+    				})                  
+                })
   	   		},
   	   		nowDate:function (){
 			    var date = new Date();
@@ -150,6 +136,7 @@
 			            + seperator2 + date.getSeconds();
 			    return currentdate;
 			},
+
 	  	    initUserInfo:function(){
 	  	   		this.user_info =  {
 	  	   			name:'',
